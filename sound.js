@@ -122,20 +122,6 @@ Sound.prototype.setVolume = function(value) {
   return this;
 };
 
-Sound.prototype.getSystemVolume = function(callback) {
-  if(IsAndroid) {
-    RNSound.getSystemVolume(callback);
-  }
-  return this;
-};
-
-Sound.prototype.setSystemVolume = function(value) {
-  if (IsAndroid) {
-    RNSound.setSystemVolume(value);
-  }
-  return this;
-};
-
 Sound.prototype.getPan = function() {
   return this._pan;
 };
@@ -186,6 +172,16 @@ Sound.prototype.setCurrentTime = function(value) {
   return this;
 };
 
+Sound.enable = function(enabled) {
+  RNSound.enable(enabled);
+};
+
+Sound.setCategory = function(value, mixWithOthers = false) {
+  if (!IsWindows) {
+    RNSound.setCategory(value, mixWithOthers);
+  }
+};
+
 // android only
 Sound.prototype.setSpeakerphoneOn = function(value) {
   if (IsAndroid) {
@@ -193,18 +189,19 @@ Sound.prototype.setSpeakerphoneOn = function(value) {
   }
 };
 
-// ios only
-
-// This is deprecated.  Call the static one instead.
-
-Sound.prototype.setCategory = function(value) {
-  Sound.setCategory(value, false);
-}
-
-Sound.enable = function(enabled) {
-  RNSound.enable(enabled);
+Sound.getSystemVolume = function(callback) {
+  if(IsAndroid) {
+    RNSound.getSystemVolume(callback);
+  }
 };
 
+Sound.setSystemVolume = function(value) {
+  if (IsAndroid) {
+    RNSound.setSystemVolume(value);
+  }
+};
+
+// ios only
 Sound.enableInSilenceMode = function(enabled) {
   if (!IsAndroid && !IsWindows) {
     RNSound.enableInSilenceMode(enabled);
@@ -214,12 +211,6 @@ Sound.enableInSilenceMode = function(enabled) {
 Sound.setActive = function(value) {
   if (!IsAndroid && !IsWindows) {
     RNSound.setActive(value);
-  }
-};
-
-Sound.setCategory = function(value, mixWithOthers = false) {
-  if (!IsWindows) {
-    RNSound.setCategory(value, mixWithOthers);
   }
 };
 
